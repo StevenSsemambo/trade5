@@ -748,7 +748,7 @@ function showLevelUp(lvl) {
   const overlay = document.getElementById('levelup-screen');
   if (!overlay) return;
   document.getElementById('lu-title').textContent = `LEVEL ${lvl}!`;
-  document.getElementById('lu-level').textContent = `You're now a Level ${lvl} Trader`;
+  document.getElementById('lu-level').textContent = `You now a Level ${lvl} Trader`;
   const msgs = ['Keep grinding! 🔥', 'Strategy Library unlocked! 📊', 'You're getting serious! 💪'];
   document.getElementById('lu-msg').textContent = msgs[Math.min(lvl - 2, msgs.length - 1)] || 'Trading legend!';
   overlay.classList.add('show');
