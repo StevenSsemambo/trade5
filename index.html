@@ -1,9 +1,519 @@
-// Replace everything from the first <script> tag with this cleaned version
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TradeBaby Pro">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" id="theme-color-meta" content="#0A0A0F">
+<meta name="description" content="TradeBaby Pro — World's most intelligent forex trading academy. Fully offline PWA.">
+<meta name="application-name" content="TradeBaby Pro">
+<title>TradeBaby Pro — Complete Trading Academy</title>
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* === TradeBaby Pro v8 — Complete CSS === */
+:root {
+  --gold: #C9A84C;
+  --gold-l: #E8C97A;
+  --gold-d: #7A6330;
+  --gold-bg: rgba(201,168,76,0.08);
+  --gold-glow: rgba(201,168,76,0.22);
+
+  --bg:    #0A0A0F;
+  --bg2:   #111118;
+  --bg3:   #18181F;
+  --bg4:   #1E1E28;
+  --bg5:   #242430;
+  --glass: rgba(15,15,22,0.88);
+
+  --bdr:  rgba(201,168,76,0.13);
+  --bdr2: rgba(255,255,255,0.07);
+  --bdr3: rgba(255,255,255,0.04);
+
+  --txt:  #F0EEE8;
+  --txt2: #9B9891;
+  --txt3: #5A5855;
+  --txt4: #3A3835;
+
+  --green:  #22C55E;
+  --green-bg: rgba(34,197,94,0.08);
+  --green-bdr: rgba(34,197,94,0.22);
+  --red:    #EF4444;
+  --red-bg: rgba(239,68,68,0.08);
+  --red-bdr: rgba(239,68,68,0.22);
+  --blue:   #60A5FA;
+  --purple: #A78BFA;
+  --orange: #F97316;
+  --cyan:   #06B6D4;
+  --pink:   #F472B6;
+
+  --r:    14px;
+  --rs:   10px;
+  --rss:  6px;
+
+  --font:    'DM Sans', -apple-system, sans-serif;
+  --mono:    'DM Mono', 'Courier New', monospace;
+  --display: 'Syne', system-ui, sans-serif;
+
+  --nav-h:    62px;
+  --safe-b:   env(safe-area-inset-bottom, 0px);
+  --total-nav: calc(var(--nav-h) + var(--safe-b));
+
+  --shadow:    0 8px 32px rgba(0,0,0,0.55);
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+[data-theme="light"] {
+  --bg:#F7F4EE; --bg2:#EDE9DF; --bg3:#E5E0D4; --bg4:#DDD7C8; --bg5:#D5CEBC;
+  --glass:rgba(247,244,238,0.92);
+  --bdr:rgba(160,120,40,0.2); --bdr2:rgba(0,0,0,0.09); --bdr3:rgba(0,0,0,0.04);
+  --txt:#1A1814; --txt2:#5C584E; --txt3:#9B9790; --txt4:#C5C2BA;
+  --shadow:0 4px 20px rgba(0,0,0,0.1);
+}
+
+[data-theme="slate"] {
+  --bg:#0D1117; --bg2:#161B22; --bg3:#21262D; --bg4:#2D333B; --bg5:#373E47;
+  --bdr:rgba(88,166,255,0.15); --bdr2:rgba(255,255,255,0.07);
+  --gold:#58A6FF; --gold-l:#79C0FF; --gold-d:#1F6FEB; --gold-bg:rgba(88,166,255,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; font-size: 16px; }
+body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button, input, select, textarea { font-family: inherit; outline: none; border: none; color: inherit; background: none; }
+button { cursor: pointer; }
+a { color: var(--gold); text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+#app {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+#screen-wrap {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+  padding-bottom: calc(var(--total-nav) + 16px);
+  position: relative;
+}
+
+#screen {
+  min-height: 100%;
+  width: 100%;
+}
+
+#bottom-nav {
+  flex-shrink: 0;
+  background: var(--glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--bdr2);
+  padding-bottom: var(--safe-b);
+  z-index: 100;
+  position: relative;
+}
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: var(--nav-h);
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  color: var(--txt3);
+  transition: color .2s, transform .1s;
+  padding: 6px 0;
+}
+.nav-item.active { color: var(--gold); }
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 2.5px;
+  background: var(--gold);
+  border-radius: 0 0 3px 3px;
+}
+.nav-item:active { transform: scale(.88); }
+.nav-icon svg { width: 20px; height: 20px; stroke-width: 1.8; }
+.nav-label { font-size: 9px; font-family: var(--display); font-weight: 700; }
+.nav-dot { position: absolute; top: 4px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); border: 2px solid var(--bg); }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) } }
+@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+@keyframes slideUp { from { transform:translateY(60px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+@keyframes pulse { 0%,100% { opacity:.4 } 50% { opacity:1 } }
+@keyframes bounceIn { 0% { transform:scale(.3);opacity:0 } 50% { transform:scale(1.08) } 75% { transform:scale(.95) } 100% { transform:scale(1);opacity:1 } }
+
+.a-fadeup { animation: fadeUp .3s cubic-bezier(.16,1,.3,1) both; }
+.a-fadeup2 { animation: fadeUp .3s .07s cubic-bezier(.16,1,.3,1) both; }
+.live-dot { width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; animation:pulse 1.5s ease infinite; }
+
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.splash-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 35%, rgba(201,168,76,.14) 0%, transparent 65%),
+              linear-gradient(180deg, #06060A 0%, #0A0A0F 100%);
+}
+.splash-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(201,168,76,.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(201,168,76,.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.splash-content {
+  position: relative; z-index: 2; text-align: center;
+  animation: fadeIn .6s .2s ease both;
+  padding: 0 24px;
+}
+.splash-logo-wrap { margin-bottom: 12px; }
+.splash-icon {
+  width: 90px; height: 90px; margin: 0 auto;
+  animation: bounceIn .8s .1s cubic-bezier(.34,1.56,.64,1) both;
+  filter: drop-shadow(0 0 24px rgba(201,168,76,.5));
+  border-radius: 20px;
+}
+.splash-title {
+  font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1;
+  background: linear-gradient(135deg, #E8C97A, #C9A84C, #7A6330);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.splash-tagline { font-size: 15px; color: var(--txt2); margin-bottom: 6px; }
+.splash-dev { font-size: 11px; color: var(--txt3); font-family: var(--display); letter-spacing: 2.5px; margin-bottom: 32px; }
+.splash-loader { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.splash-loader-bar { width: 160px; height: 3px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+.splash-loader-fill { height: 100%; background: linear-gradient(90deg, var(--gold-d), var(--gold), var(--gold-l)); border-radius: 3px; width: 0; transition: width .4s ease; }
+.splash-loader-text { font-size: 10px; color: var(--txt3); font-family: var(--display); letter-spacing: 1.5px; text-transform: uppercase; }
+
+#onboarding {
+  position: fixed; inset: 0; z-index: 900; background: var(--bg); display: none;
+}
+.onboard-container { display: flex; flex-direction: column; height: 100%; max-width: 540px; margin: 0 auto; }
+.onboard-header { flex-shrink: 0; padding-top: env(safe-area-inset-top, 16px); }
+.onboard-progress-track { height: 3px; background: var(--bg4); }
+.onboard-progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-d), var(--gold)); transition: width .5s cubic-bezier(.34,1.56,.64,1); }
+.onboard-body { flex: 1; overflow-y: auto; padding: 28px 20px 40px; -webkit-overflow-scrolling: touch; }
+
+#levelup-screen {
+  display: none; position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,.85); align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+}
+#levelup-screen.show { display: flex; }
+.levelup-card {
+  position: relative; z-index: 1; background: var(--bg2); border: 2px solid var(--gold);
+  border-radius: 24px; padding: 36px 28px; text-align: center; max-width: 300px; width: 90%;
+  animation: bounceIn .5s cubic-bezier(.34,1.56,.64,1); box-shadow: 0 0 60px var(--gold-glow), var(--shadow);
+}
+.levelup-trophy { font-size: 72px; display: block; margin-bottom: 12px; }
+.levelup-title { font-family: var(--display); font-weight: 800; font-size: 32px; color: var(--gold); }
+.levelup-level { font-size: 16px; color: var(--txt2); margin: 6px 0 4px; }
+.levelup-msg { font-size: 14px; color: var(--txt3); margin-bottom: 4px; }
+
+#toast-container {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 9998;
+  display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none;
+  width: 90%; max-width: 360px;
+}
+.toast-item {
+  background: var(--bg2); border: 1.5px solid var(--bdr); border-radius: 12px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600; color: var(--txt);
+  box-shadow: var(--shadow); pointer-events: all; text-align: center;
+  animation: bounceIn .3s cubic-bezier(.34,1.56,.64,1) both;
+  backdrop-filter: blur(12px); max-width: 100%;
+}
+
+#modal-backdrop {
+  position: fixed; inset: 0; z-index: 700;
+  background: rgba(0,0,0,.72); backdrop-filter: blur(6px);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+#modal-box {
+  background: var(--bg2); border-radius: 22px 22px 0 0; border-top: 1px solid var(--bdr2);
+  width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
+  padding: 6px 20px 40px; animation: slideUp .3s cubic-bezier(.34,1.56,.64,1);
+}
+.modal-handle { width: 40px; height: 4px; background: var(--bdr2); border-radius: 2px; margin: 12px auto 20px; }
+
+.card { background: var(--bg3); border: 1px solid var(--bdr2); border-radius: var(--r); padding: 16px; position: relative; }
+.card-gold { background: linear-gradient(135deg, rgba(201,168,76,.1), rgba(201,168,76,.03)); border: 1px solid var(--bdr); }
+.card-tappable { cursor: pointer; transition: transform .15s, border-color .2s; }
+.card-tappable:active { transform: scale(.975); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 20px; border-radius: var(--r); font-size: 14px; font-weight: 700;
+  font-family: var(--display); cursor: pointer; transition: all .2s; width: 100%;
+}
+.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-d)); color: #0A0A0F; box-shadow: 0 4px 16px var(--gold-glow); }
+.btn-gold:active { transform: scale(.96); }
+.btn-outline { border: 1.5px solid var(--bdr2); color: var(--txt); }
+.btn-outline:active { background: var(--bg4); transform: scale(.97); }
+.btn-ghost { background: var(--bg4); border: 1px solid var(--bdr2); color: var(--txt2); }
+.btn-sm { padding: 8px 14px; font-size: 12px; width: auto; border-radius: var(--rs); }
+.btn-xs { padding: 5px 10px; font-size: 11px; width: auto; border-radius: var(--rss); }
+.btn-icon { width: 38px; height: 38px; padding: 0; border-radius: var(--rs); border: 1px solid var(--bdr2); display: flex; align-items: center; justify-content: center; }
+.btn-icon:active { transform: scale(.9); }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 100px; font-size: 11px;
+  font-weight: 700; font-family: var(--display);
+}
+.pill-gold { background: rgba(201,168,76,.15); color: var(--gold); border: 1px solid rgba(201,168,76,.3); }
+.pill-green { background: rgba(34,197,94,.12); color: var(--green); border: 1px solid rgba(34,197,94,.25); }
+.pill-red { background: rgba(239,68,68,.12); color: var(--red); border: 1px solid rgba(239,68,68,.25); }
+
+.inp-wrap { margin-bottom: 12px; }
+.inp-label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--txt2); font-family: var(--display); margin-bottom: 5px; }
+.inp {
+  width: 100%; background: rgba(255,255,255,.04); border: 1.5px solid var(--bdr2); border-radius: var(--rs);
+  padding: 11px 14px; color: var(--txt); font-size: 14px;
+}
+.inp:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.stat-grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.stat-box { background: var(--bg3); border: 1px solid var(--bdr2); border-radius: var(--r); padding: 12px 14px; }
+.stat-val { font-family: var(--display); font-weight: 800; font-size: 22px; color: var(--gold); line-height: 1.1; }
+.stat-lbl { font-size: 10px; color: var(--txt3); margin-top: 4px; font-family: var(--display); letter-spacing: .5px; }
+
+.prog-bar { height: 5px; background: var(--bg4); border-radius: 5px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--gold-d), var(--gold), var(--gold-l)); transition: width .6s cubic-bezier(.34,1.56,.64,1); }
+.prog-bar.lg { height: 8px; }
+
+.xp-wrap { background: var(--bg3); border: 1px solid var(--bdr2); border-radius: var(--r); padding: 14px; }
+.xp-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+.xp-level { font-family: var(--display); font-weight: 800; font-size: 13px; color: var(--gold); }
+.xp-pts { font-size: 11px; color: var(--txt2); font-family: var(--mono); }
+
+.pg-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 8px; }
+.pg-title { font-family: var(--display); font-weight: 800; font-size: 22px; line-height: 1; }
+.back-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: var(--rs); background: var(--bg3); border: 1px solid var(--bdr2); flex-shrink: 0; cursor: pointer; }
+.back-btn:active { transform: scale(.9); }
+.section-lbl { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--txt3); font-family: var(--display); margin-bottom: 10px; }
+
+.forex-clock { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+.clk-session { background: var(--bg3); border: 1.5px solid var(--bdr2); border-radius: var(--rs); padding: 10px 6px; text-align: center; }
+.clk-session.open { border-color: var(--green-bdr); background: var(--green-bg); }
+.clk-name { font-size: 10px; font-weight: 700; font-family: var(--display); color: var(--txt2); }
+.clk-status { font-size: 9px; font-weight: 700; font-family: var(--display); margin-top: 4px; }
+
+.j-entry { background: var(--bg3); border: 1.5px solid var(--bdr2); border-radius: var(--r); padding: 14px; margin-bottom: 8px; cursor: pointer; transition: all .15s; }
+.j-entry.win::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--green); }
+.j-entry.loss::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--red); }
+
+.notif-item { background: var(--bg3); border: 1px solid var(--bdr2); border-radius: var(--r); padding: 12px 14px; margin-bottom: 8px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.notif-item.unread { border-color: var(--bdr); background: var(--gold-bg); }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 3px; }
+
+.screen-pad { padding: 16px; }
+
+@media (min-width: 1024px) {
+  #app { position: static; height: 100vh; max-width: 100%; flex-direction: row; }
+  #bottom-nav { width: 220px; height: 100vh; padding-bottom: 0; border-top: none; border-right: 1px solid var(--bdr2); overflow-y: auto; }
+  .nav-grid { display: flex; flex-direction: column; height: auto; padding: 20px 10px; }
+  .nav-item { flex-direction: row; justify-content: flex-start; padding: 10px 12px; border-radius: var(--rs); gap: 10px; width: 100%; }
+  .nav-item.active::after { display: none; }
+  .nav-item.active { background: var(--gold-bg); color: var(--gold); }
+  #screen-wrap { order: 2; flex: 1; height: 100vh; padding-bottom: 24px; }
+  #screen { max-width: 720px; margin: 0 auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- INSTALL BANNER -->
+<div id="install-banner" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;z-index:500;background:linear-gradient(135deg,#1E1E28,#18181F);border:1.5px solid rgba(201,168,76,0.3);border-radius:14px;padding:14px 16px;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5)">
+  <div style="font-size:28px">📈</div>
+  <div style="flex:1">
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#F0EEE8">Install TradeBaby Pro</div>
+    <div style="font-size:11px;color:#9B9891;margin-top:2px">Add to home screen for offline access</div>
+  </div>
+  <button id="install-btn" style="background:linear-gradient(135deg,#C9A84C,#7A6330);color:#0A0A0F;border:none;padding:8px 14px;border-radius:8px;font-weight:700;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer">Install</button>
+  <button onclick="document.getElementById('install-banner').style.display='none'" style="background:none;border:none;color:#5A5855;font-size:18px;cursor:pointer;padding:0 4px">×</button>
+</div>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-bg"></div>
+  <div class="splash-grid"></div>
+  <canvas id="splash-canvas" style="position:absolute;inset:0;pointer-events:none"></canvas>
+  <div class="splash-content">
+    <div class="splash-logo-wrap">
+      <img src="icons/icon.svg" class="splash-icon" alt="TradeBaby">
+    </div>
+    <h1 class="splash-title">TradeBaby Pro</h1>
+    <p class="splash-tagline">Complete Trading Academy</p>
+    <p class="splash-dev">by SayMy Tech Developers</p>
+    <div class="splash-loader">
+      <div class="splash-loader-bar"><div class="splash-loader-fill" id="splash-fill"></div></div>
+      <div class="splash-loader-text" id="splash-msg">Initializing...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding" style="display:none">
+  <div class="onboard-container">
+    <div class="onboard-header">
+      <div class="onboard-progress-track">
+        <div class="onboard-progress-fill" id="ob-progress"></div>
+      </div>
+    </div>
+    <div class="onboard-body" id="ob-body"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none">
+  <main id="screen-wrap">
+    <div id="screen"></div>
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav id="bottom-nav">
+    <div class="nav-grid">
+      <button class="nav-item active" id="ni-home" onclick="navigate('home')">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" id="ni-learn" onclick="navigate('learn')">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></span>
+        <span class="nav-label">Learn</span>
+      </button>
+      <button class="nav-item" id="ni-trade" onclick="navigate('trade')">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+        <span class="nav-label">Trade</span>
+      </button>
+      <button class="nav-item" id="ni-journal" onclick="navigate('journal')">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+        <span class="nav-label">Journal</span>
+      </button>
+      <button class="nav-item" id="ni-more" onclick="showMoreMenu()">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></svg>
+          <span id="mentor-dot" style="display:none;position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--bg)"></span>
+        </span>
+        <span class="nav-label">More</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- More Menu Drawer -->
+  <div id="more-menu-backdrop" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px)" onclick="closeMoreMenu()">
+    <div id="more-menu-drawer" style="position:absolute;bottom:0;left:0;right:0;max-width:540px;margin:0 auto;background:var(--bg2);border-radius:22px 22px 0 0;border-top:1px solid var(--bdr2);padding:6px 16px 40px;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)" onclick="event.stopPropagation()">
+      <div style="width:40px;height:4px;background:var(--bdr2);border-radius:2px;margin:10px auto 18px"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-family:var(--display);font-weight:800;font-size:18px">More</div>
+        <button onclick="closeMoreMenu()" style="background:var(--bg3);border:1px solid var(--bdr2);border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer">✕</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div onclick="closeMoreMenu();navigate('mentor')" style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;background:linear-gradient(135deg,var(--gold-bg),transparent);border-radius:var(--rs);cursor:pointer;border:1px solid var(--bdr)">
+          <span style="font-size:24px">🤖</span>
+          <span style="font-size:10px;font-weight:700;font-family:var(--display);color:var(--gold)">Mentor AI</span>
+          <span id="more-mentor-dot" style="display:none;position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--bg3)"></span>
+        </div>
+        <div onclick="closeMoreMenu();navigate('profile')" style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;background:var(--bg3);border-radius:var(--rs);cursor:pointer;border:1px solid var(--bdr2)">
+          <span style="font-size:24px">👤</span>
+          <span style="font-size:10px;font-weight:700;font-family:var(--display);color:var(--txt2)">Profile</span>
+        </div>
+        <div onclick="closeMoreMenu();navigate('settings')" style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;background:var(--bg3);border-radius:var(--rs);cursor:pointer;border:1px solid var(--bdr2)">
+          <span style="font-size:24px">⚙️</span>
+          <span style="font-size:10px;font-weight:700;font-family:var(--display);color:var(--txt2)">Settings</span>
+        </div>
+        <div onclick="closeMoreMenu();navigate('notifications')" style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;background:var(--bg3);border-radius:var(--rs);cursor:pointer;border:1px solid var(--bdr2)">
+          <span style="font-size:24px">🔔</span>
+          <span style="font-size:10px;font-weight:700;font-family:var(--display);color:var(--txt2)">Alerts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEVEL UP OVERLAY -->
+<div id="levelup-screen" style="display:none">
+  <div class="levelup-card" id="lu-card">
+    <div class="levelup-trophy">🏆</div>
+    <div class="levelup-title" id="lu-title">LEVEL UP!</div>
+    <div class="levelup-level" id="lu-level">You reached Level 2</div>
+    <div class="levelup-msg" id="lu-msg">Keep building your skills!</div>
+    <button class="btn btn-gold" onclick="closeLevelUp()" style="width:100%;margin-top:20px">Awesome! 🎉</button>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- MODAL -->
+<div id="modal-backdrop" style="display:none" onclick="closeModal()">
+  <div id="modal-box" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="float-btn" onclick="toggleFloatChat()" style="position:fixed;bottom:calc(var(--total-nav) + 18px);right:16px;z-index:600;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px var(--gold-glow),0 2px 8px rgba(0,0,0,0.4);cursor:pointer;animation:glow 3s ease infinite">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+</div>
+
+<div id="float-chat-panel" style="display:none;position:fixed;bottom:calc(var(--total-nav) + 82px);right:12px;left:12px;max-width:420px;margin-left:auto;z-index:601;background:var(--bg2);border:1.5px solid var(--bdr);border-radius:20px;box-shadow:0 16px 48px rgba(0,0,0,0.6);overflow:hidden;flex-direction:column;max-height:72vh">
+  <div style="padding:12px 14px;background:linear-gradient(135deg,var(--gold-d),var(--gold));display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;font-size:16px">🤖</div>
+      <div>
+        <div style="font-family:var(--display);font-weight:800;font-size:13px;color:#0A0A0F">TradeMind AI</div>
+        <div style="font-size:10px;color:rgba(10,10,15,0.65)">Knows everything about you</div>
+      </div>
+    </div>
+    <button onclick="toggleFloatChat()" style="background:rgba(0,0,0,0.2);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0A0A0F">✕</button>
+  </div>
+  <div id="float-messages" style="flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px;max-height:280px"></div>
+  <div style="display:flex;gap:7px;padding:8px 10px;border-top:1px solid var(--bdr2);background:var(--glass)">
+    <input id="float-input" style="flex:1;background:rgba(255,255,255,.05);border:1.5px solid var(--bdr2);border-radius:20px;padding:8px 14px;font-size:13px;color:var(--txt)" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendFloatMsg()">
+    <button onclick="sendFloatMsg()" style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#0A0A0F;display:flex;align-items:center;justify-content:center;border:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
    TRADEBABY PRO v8 — COMPLETE CLEAN SOURCE
-   SayMy Tech Developers
    ═══════════════════════════════════════════════════════════════ */
 
 /* ═══ DATA ═══ */
@@ -21,24 +531,45 @@ const MARKET_DATA = {
 
 const DAILY_TIPS = [
   {tip:"The market is a device for transferring money from the impatient to the patient.", by:"Warren Buffett"},
-  {tip:"The goal of a successful trader is to make the best trades. Money is secondary.", by:"Alexander Elder"}
+  {tip:"The goal of a successful trader is to make the best trades. Money is secondary.", by:"Alexander Elder"},
+  {tip:"Risk comes from not knowing what you're doing.", by:"Warren Buffett"},
+  {tip:"It's not whether you're right or wrong, but how much you make when right and how much you lose when wrong.", by:"George Soros"},
+  {tip:"Amateurs want to be right. Professionals want to make money.", by:"Trading Wisdom"}
 ];
 
 const FLASHCARDS = [
-  {q:"What is a pip?", a:"The smallest standard price movement. Most pairs: 0.0001 (4th decimal)."},
-  {q:"What is leverage?", a:"Borrowing from your broker to control a larger position."}
+  {q:"What is a pip?", a:"The smallest standard price movement. Most pairs: 0.0001 (4th decimal). JPY pairs: 0.01 (2nd decimal)."},
+  {q:"What is leverage?", a:"Borrowing from your broker to control a larger position. Amplifies both profits AND losses equally."},
+  {q:"What is the Bid price?", a:"The price at which you can SELL. Always lower than the Ask."},
+  {q:"What is the Ask price?", a:"The price at which you can BUY. Always higher than the Bid."},
+  {q:"What is a Stop Loss?", a:"Auto-closes trade at predetermined loss level. ALWAYS use one."}
 ];
 
-const STRATEGIES = []; // Add your strategies here
+const STRATEGIES = [
+  {
+    id:'support-bounce', name:'Support & Resistance Bounce', style:'Swing', tf:'H4/D1',
+    pairs:'All Pairs', winrate:'55%', rr:'1:2.5', difficulty:1, emoji:'📏',
+    desc:'Buy at strong support, sell at strong resistance. The most fundamental strategy.',
+    rules:[
+      'Mark key S&R levels on D1 timeframe',
+      'Wait for price to approach the zone (within 10-15 pips)',
+      'Look for reversal confirmation: pin bar, doji, or engulfing',
+      'Enter on H4 or H1 after confirmation candle CLOSES',
+      'Stop Loss: 10-20 pips beyond the S&R zone',
+      'Take Profit: next significant S&R level on the opposite side'
+    ]
+  }
+];
 
 /* ═══ STATE MANAGEMENT ═══ */
 const STATE = {
   screen: 'home',
   user: {
     name: '', level: 1, xp: 0, xpNext: 500,
-    onboarded: false, toured: false,
-    theme: 'dark', fontSize: 'medium',
-    brightness: 100, notificationsEnabled: false,
+    goal: '', experience: '', schedule: '', riskStyle: '', learningStyle: '',
+    joinDate: null, theme: 'dark', fontSize: 'medium',
+    brightness: 100, onboarded: false, toured: false,
+    notificationsEnabled: false,
   },
   progress: {},
   journal: [],
@@ -46,7 +577,12 @@ const STATE = {
   simTrades: [], simBalance: 10000, simEquity: 10000,
   achievements: [],
   dailyStreak: 0, lastActive: null,
+  dailyMood: null, dailyCheckIn: null,
+  flashProgress: {},
+  patternScore: { correct: 0, total: 0 },
+  quizResults: {},
   notifications: [],
+  behaviorLog: [],
 };
 
 /* ═══ PERSISTENCE ═══ */
@@ -55,17 +591,23 @@ function loadState() {
     const raw = localStorage.getItem('tb4');
     if (!raw) return;
     const p = JSON.parse(raw);
-    Object.assign(STATE.user, p.user || {});
-    STATE.progress = p.progress || {};
-    STATE.journal = p.journal || [];
-    STATE.chatHistory = (p.chatHistory || []).slice(-80);
-    STATE.simTrades = p.simTrades || [];
-    STATE.simBalance = p.simBalance ?? 10000;
-    STATE.simEquity = p.simEquity ?? 10000;
-    STATE.achievements = p.achievements || [];
-    STATE.dailyStreak = p.dailyStreak || 0;
-    STATE.lastActive = p.lastActive;
-    STATE.notifications = p.notifications || [];
+    if (p.user) Object.assign(STATE.user, p.user);
+    if (p.progress) STATE.progress = p.progress;
+    if (p.journal) STATE.journal = p.journal;
+    if (p.chatHistory) STATE.chatHistory = p.chatHistory.slice(-80);
+    if (p.simTrades) STATE.simTrades = p.simTrades;
+    if (p.simBalance !== undefined) STATE.simBalance = p.simBalance;
+    if (p.simEquity  !== undefined) STATE.simEquity  = p.simEquity;
+    if (p.achievements) STATE.achievements = p.achievements;
+    if (p.dailyStreak !== undefined) STATE.dailyStreak = p.dailyStreak;
+    if (p.lastActive) STATE.lastActive = p.lastActive;
+    if (p.dailyMood) STATE.dailyMood = p.dailyMood;
+    if (p.dailyCheckIn) STATE.dailyCheckIn = p.dailyCheckIn;
+    if (p.flashProgress) STATE.flashProgress = p.flashProgress;
+    if (p.patternScore) STATE.patternScore = p.patternScore;
+    if (p.quizResults) STATE.quizResults = p.quizResults;
+    if (p.notifications) STATE.notifications = p.notifications;
+    if (p.behaviorLog) STATE.behaviorLog = p.behaviorLog.slice(-500);
     updateStreak();
     applyTheme(STATE.user.theme || 'dark');
     applyFontSize(STATE.user.fontSize || 'medium');
@@ -86,16 +628,22 @@ function saveState() {
       achievements: STATE.achievements,
       dailyStreak: STATE.dailyStreak,
       lastActive: STATE.lastActive,
+      dailyMood: STATE.dailyMood,
+      dailyCheckIn: STATE.dailyCheckIn,
+      flashProgress: STATE.flashProgress,
+      patternScore: STATE.patternScore,
+      quizResults: STATE.quizResults,
       notifications: STATE.notifications,
+      behaviorLog: STATE.behaviorLog.slice(-500),
     }));
   } catch(e) { console.warn('Save state error', e); }
 }
 
 function updateStreak() {
   const today = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
   if (!STATE.lastActive) { STATE.dailyStreak = 1; STATE.lastActive = today; return; }
   if (STATE.lastActive === today) return;
-  const yesterday = new Date(Date.now() - 86400000).toDateString();
   STATE.dailyStreak = STATE.lastActive === yesterday ? STATE.dailyStreak + 1 : 1;
   STATE.lastActive = today;
 }
@@ -105,7 +653,10 @@ function applyTheme(t) {
   STATE.user.theme = t;
   if (t === 'dark') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme', t);
-  const metaColors = { dark:'#0A0A0F', light:'#F7F4EE', slate:'#0D1117', matrix:'#020A04', ocean:'#040810', crimson:'#0F0508', forest:'#050F08' };
+  const metaColors = {
+    dark:'#0A0A0F', light:'#F7F4EE', slate:'#0D1117',
+    matrix:'#020A04', ocean:'#040810', crimson:'#0F0508', forest:'#050F08'
+  };
   const meta = document.getElementById('theme-color-meta');
   if (meta) meta.content = metaColors[t] || '#0A0A0F';
 }
@@ -122,7 +673,10 @@ function applyBrightness(v) {
 
 /* ═══ NOTIFICATIONS ═══ */
 function addNotification(text, icon = '📢') {
-  STATE.notifications.unshift({ id: Date.now(), text, icon, time: new Date().toISOString(), read: false });
+  STATE.notifications.unshift({
+    id: Date.now(), text, icon,
+    time: new Date().toISOString(), read: false
+  });
   if (STATE.notifications.length > 50) STATE.notifications = STATE.notifications.slice(0, 50);
   updateNotificationDots();
   saveState();
@@ -186,6 +740,7 @@ function addXP(amt) {
   }
   if (leveled) showLevelUp(STATE.user.level);
   saveState();
+  checkAchievements();
   return leveled;
 }
 
@@ -194,7 +749,8 @@ function showLevelUp(lvl) {
   if (!overlay) return;
   document.getElementById('lu-title').textContent = `LEVEL ${lvl}!`;
   document.getElementById('lu-level').textContent = `You're now a Level ${lvl} Trader`;
-  document.getElementById('lu-msg').textContent = 'Keep building your skills!';
+  const msgs = ['Keep grinding! 🔥', 'Strategy Library unlocked! 📊', 'You're getting serious! 💪'];
+  document.getElementById('lu-msg').textContent = msgs[Math.min(lvl - 2, msgs.length - 1)] || 'Trading legend!';
   overlay.classList.add('show');
 }
 
@@ -203,10 +759,41 @@ function closeLevelUp() {
   if (o) o.classList.remove('show');
 }
 
+/* ═══ ACHIEVEMENTS ═══ */
+function checkAchievements() {
+  const defs = [
+    { id: 'first-lesson',   check: () => completedCount() >= 1 },
+    { id: 'five-lessons',   check: () => completedCount() >= 5 },
+    { id: 'first-trade',    check: () => STATE.simTrades.length >= 1 },
+    { id: 'first-journal',  check: () => STATE.journal.length >= 1 },
+    { id: 'streak-3',       check: () => STATE.dailyStreak >= 3 },
+    { id: 'level-5',        check: () => STATE.user.level >= 5 },
+  ];
+  const labels = {
+    'first-lesson':'📚 First Step!', 'five-lessons':'🎯 Getting Serious',
+    'first-trade':'📈 First Trade', 'first-journal':'📓 First Entry',
+    'streak-3':'🔥 3-Day Streak', 'level-5':'⭐ Rising Star',
+  };
+  defs.forEach(d => {
+    if (!STATE.achievements.includes(d.id) && d.check()) {
+      STATE.achievements.push(d.id);
+      showToast(`🏅 Achievement: ${labels[d.id] || d.id}`, 3500);
+      addNotification(`Achievement unlocked: ${labels[d.id]}`, '🏅');
+    }
+  });
+}
+
+function completedCount() { return Object.keys(STATE.progress).length; }
+function totalLessons() { return 0; } // Will be updated with actual lessons
+function progressPct() { return 0; }
+
 /* ═══ NAVIGATION ═══ */
 function navigate(screen) {
   closeMoreMenu();
   STATE.screen = screen;
+  
+  // Log behavior
+  BEHAVIOR.log('screen_visit', { screen });
 
   // Update nav highlight
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -230,21 +817,27 @@ function renderScreen(screen) {
   const el = document.getElementById('screen');
   if (!el) return;
 
-  let html = '';
-  if (screen === 'home') html = renderHome();
-  else if (screen === 'learn') html = renderLearn();
-  else if (screen === 'trade') html = renderTrade();
-  else if (screen === 'journal') html = renderJournal();
-  else if (screen === 'profile') html = renderProfile();
-  else if (screen === 'mentor') html = renderMentor();
-  else if (screen === 'settings') html = renderSettings();
-  else if (screen === 'notifications') html = renderNotifications();
-  else html = renderHome();
+  const renderers = {
+    home: renderHome,
+    learn: renderLearn,
+    trade: renderTrade,
+    journal: renderJournal,
+    mentor: renderMentor,
+    profile: renderProfile,
+    settings: renderSettings,
+    notifications: renderNotifications,
+    strategies: renderStrategies,
+    calculator: renderCalculator,
+    analytics: renderAnalytics,
+    flashcards: renderFlashcards,
+  };
 
-  el.innerHTML = html;
+  const fn = renderers[screen] || renderHome;
+  el.innerHTML = fn();
 
   // Post-render hooks
   if (screen === 'home') initForexClock();
+  if (screen === 'mentor') setTimeout(scrollChatToBottom, 50);
 }
 
 /* ═══ HOME SCREEN ═══ */
@@ -252,17 +845,18 @@ function renderHome() {
   const name = STATE.user.name || 'Trader';
   const hr = new Date().getHours();
   const greeting = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
-  const xpPct = Math.round((STATE.user.xp / STATE.user.xpNext) * 100);
+  const xpPct = Math.round((STATE.user.xp / STATE.user.xpNext) * 100) || 0;
   const unread = STATE.notifications.filter(n => !n.read).length;
+  const insight = getSmartInsight();
 
   return `
     <div class="screen-pad">
-      <!-- Header -->
+      <!-- Greeting -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <div>
-          <div style="font-size:12px;color:var(--txt3)">${greeting},</div>
-          <h1 style="font-size:24px">${name} 👋</h1>
-          <div style="display:flex;gap:8px;margin-top:6px">
+          <div style="font-size:12px;color:var(--txt3);font-weight:600">${greeting},</div>
+          <h1 style="font-size:24px;margin-top:2px">${name} 👋</h1>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
             <span class="pill pill-gold">⭐ Lvl ${STATE.user.level}</span>
             <span style="font-size:12px;color:var(--txt3)">${STATE.dailyStreak}🔥 streak</span>
           </div>
@@ -279,37 +873,34 @@ function renderHome() {
       <!-- XP Progress -->
       <div class="xp-wrap" style="margin-bottom:16px">
         <div class="xp-row">
-          <div class="xp-level">Level ${STATE.user.level}</div>
+          <div class="xp-level">Level ${STATE.user.level} Trader</div>
           <div class="xp-pts">${STATE.user.xp} / ${STATE.user.xpNext} XP</div>
         </div>
         <div class="prog-bar lg"><div class="prog-fill" style="width:${xpPct}%"></div></div>
       </div>
 
-      <!-- Quick Access -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
-        ${[
-          {icon:'📚', label:'Learn', action:'learn'},
-          {icon:'📈', label:'Trade', action:'trade'},
-          {icon:'📓', label:'Journal', action:'journal'},
-          {icon:'⚙️', label:'Settings', action:'settings'}
-        ].map(item => `
-          <div class="card card-tappable" onclick="navigate('${item.action}')" style="padding:12px;text-align:center">
-            <div style="font-size:24px;margin-bottom:4px">${item.icon}</div>
-            <div style="font-size:12px">${item.label}</div>
-          </div>
-        `).join('')}
+      <!-- Smart Insight -->
+      <div class="card card-gold" style="padding:14px;margin-bottom:16px;cursor:pointer" onclick="navigate('${insight.action}')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="font-size:28px">${insight.icon}</div>
+          <div style="flex:1;font-size:13px;color:var(--txt2);line-height:1.5">${insight.text}</div>
+          <span class="pill pill-gold" style="font-size:10px">${insight.cta} →</span>
+        </div>
       </div>
 
       <!-- Forex Clock -->
       <div style="margin-bottom:16px">
-        <div class="section-lbl">Live Sessions</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <div class="section-lbl" style="margin-bottom:0">Live Sessions</div>
+          <div id="utc-time" class="utc-display">—</div>
+        </div>
         <div class="forex-clock" id="forex-clock"></div>
       </div>
 
-      <!-- Stats -->
-      <div class="stat-grid">
+      <!-- Stats Grid -->
+      <div class="stat-grid" style="margin-bottom:16px">
         <div class="stat-box">
-          <div class="stat-val">${Object.keys(STATE.progress).length}</div>
+          <div class="stat-val">${completedCount()}</div>
           <div class="stat-lbl">Lessons</div>
         </div>
         <div class="stat-box">
@@ -325,8 +916,60 @@ function renderHome() {
           <div class="stat-lbl">Badges</div>
         </div>
       </div>
+
+      <!-- Quick Access -->
+      <div class="section-lbl">Quick Access</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+        ${[
+          {icon:'📚', label:'Learn', action:'learn'},
+          {icon:'📈', label:'Trade', action:'trade'},
+          {icon:'📓', label:'Journal', action:'journal'},
+          {icon:'🤖', label:'Mentor', action:'mentor'},
+          {icon:'⚔️', label:'Strategies', action:'strategies'},
+          {icon:'🧮', label:'Calculator', action:'calculator'},
+          {icon:'🃏', label:'Flashcards', action:'flashcards'},
+          {icon:'⚙️', label:'Settings', action:'settings'},
+        ].map(a => `
+          <div class="card card-tappable" onclick="navigate('${a.action}')" style="padding:12px 4px;text-align:center">
+            <div style="font-size:24px;margin-bottom:4px">${a.icon}</div>
+            <div style="font-size:11px;font-weight:700">${a.label}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Daily Tip -->
+      <div class="section-lbl">Daily Wisdom</div>
+      <div class="card card-gold" style="padding:14px">
+        <div style="font-size:14px;font-style:italic;line-height:1.6;margin-bottom:8px">
+          "${DAILY_TIPS[new Date().getDate() % DAILY_TIPS.length].tip}"
+        </div>
+        <div style="font-size:11px;color:var(--gold);font-weight:700;text-align:right">
+          — ${DAILY_TIPS[new Date().getDate() % DAILY_TIPS.length].by}
+        </div>
+      </div>
     </div>
   `;
+}
+
+function getSmartInsight() {
+  const now = new Date();
+  const hr = now.getHours();
+  const sessions = getSessionStatus();
+  const soonSession = sessions.find(s => s.soon);
+  const openSessions = sessions.filter(s => s.isOpen);
+  const daysSinceJournal = STATE.journal.length > 0
+    ? Math.round((now - new Date(STATE.journal[STATE.journal.length - 1].date)) / 86400000)
+    : 999;
+
+  if (daysSinceJournal >= 3 && STATE.simTrades.length > 0)
+    return {icon:'📓', text:`You haven't journaled in ${daysSinceJournal} days. Log your trades to improve.`, action:'journal', cta:'Log Trade'};
+  if (soonSession)
+    return {icon:'⏰', text:`${soonSession.name} session opens in ~${soonSession.minsTill} minutes. Prepare your analysis.`, action:'trade', cta:'Open Charts'};
+  if (openSessions.length > 0)
+    return {icon:'📈', text:`${openSessions.map(s=>s.name).join(' + ')} active. Best trading window now.`, action:'trade', cta:'Practice Now'};
+  if (completedCount() < 5)
+    return {icon:'📚', text:`Complete more lessons to unlock advanced strategies.`, action:'learn', cta:'Study Now'};
+  return {icon:'💡', text:`Consistent daily practice builds real skill.`, action:'learn', cta:'Start Learning'};
 }
 
 /* ═══ LEARN SCREEN ═══ */
@@ -334,91 +977,391 @@ function renderLearn() {
   return `<div class="screen-pad">
     <h1 class="pg-title">Learning Academy</h1>
     <p style="color:var(--txt2);margin:8px 0 16px">Coming soon — full curriculum with 40+ lessons!</p>
-    <div class="card card-gold" style="padding:20px;text-align:center">
-      <div style="font-size:48px">📚</div>
-      <div style="font-size:16px;margin:8px 0">Curriculum Under Development</div>
-      <div style="font-size:13px;color:var(--txt2)">Check back soon for complete trading education</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="card card-tappable" onclick="navigate('flashcards')" style="padding:20px;text-align:center">
+        <div style="font-size:40px">🃏</div>
+        <div style="margin-top:8px;font-weight:700">Flashcards</div>
+      </div>
+      <div class="card card-tappable" onclick="navigate('strategies')" style="padding:20px;text-align:center">
+        <div style="font-size:40px">⚔️</div>
+        <div style="margin-top:8px;font-weight:700">Strategies</div>
+      </div>
     </div>
   </div>`;
 }
 
 /* ═══ TRADE SCREEN ═══ */
 function renderTrade() {
+  const totalPnl = STATE.simTrades.reduce((a, t) => a + (t.pnl || 0), 0);
+  const winRate = STATE.simTrades.length > 0
+    ? Math.round(STATE.simTrades.filter(t => t.pnl > 0).length / STATE.simTrades.length * 100)
+    : 0;
+
   return `<div class="screen-pad">
     <h1 class="pg-title">Practice Trading</h1>
     <p style="color:var(--txt2);margin:8px 0 16px">Simulation mode with $10,000 virtual balance</p>
-    <div class="card card-gold" style="padding:20px;text-align:center">
-      <div style="font-size:48px">📈</div>
-      <div style="font-size:16px;margin:8px 0">Trading Terminal</div>
-      <div style="font-size:13px;color:var(--txt2)">Full charting and trade simulation coming soon</div>
-      <div style="margin-top:16px;font-size:24px;color:var(--green)">$${STATE.simBalance.toFixed(2)}</div>
+    
+    <div class="stat-grid" style="margin-bottom:16px">
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--green)">$${STATE.simBalance.toFixed(0)}</div>
+        <div class="stat-lbl">Balance</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:${totalPnl>=0?'var(--green)':'var(--red)'}">${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toFixed(0)}</div>
+        <div class="stat-lbl">P&L</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">${winRate}%</div>
+        <div class="stat-lbl">Win Rate</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">${STATE.simTrades.length}</div>
+        <div class="stat-lbl">Trades</div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:20px;text-align:center;margin-bottom:16px">
+      <div style="font-size:48px">📊</div>
+      <div style="margin:12px 0">Trading terminal coming soon</div>
+      <button class="btn btn-gold btn-sm" onclick="navigate('calculator')">Use Calculator</button>
+    </div>
+
+    <div class="card card-gold" style="padding:14px">
+      <div style="font-weight:700;margin-bottom:8px">Quick Trade Log</div>
+      <div style="display:flex;gap:8px">
+        <select id="sim-pair" class="inp" style="flex:1">
+          <option value="EUR/USD">EUR/USD</option>
+          <option value="GBP/USD">GBP/USD</option>
+          <option value="USD/JPY">USD/JPY</option>
+        </select>
+        <input id="sim-pnl" class="inp" placeholder="P&L $" type="number" style="width:100px">
+        <button class="btn btn-gold btn-sm" onclick="logSimTrade()">Log</button>
+      </div>
     </div>
   </div>`;
 }
 
+function logSimTrade() {
+  const pair = document.getElementById('sim-pair')?.value || 'EUR/USD';
+  const pnl = parseFloat(document.getElementById('sim-pnl')?.value) || 0;
+  if (pnl === 0) { showToast('Enter P&L amount'); return; }
+  
+  STATE.simTrades.push({
+    pair, pnl,
+    time: new Date().toISOString()
+  });
+  STATE.simEquity += pnl;
+  addNotification(`Trade logged: ${pnl>0?'+':''}$${pnl}`, pnl>0?'✅':'❌');
+  showToast(`Trade logged!`);
+  saveState();
+  navigate('trade');
+}
+
 /* ═══ JOURNAL SCREEN ═══ */
+let _journalView = 'list';
+
 function renderJournal() {
   return `<div class="screen-pad">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
       <h1 class="pg-title">Trade Journal</h1>
-      <button class="btn btn-gold btn-sm">+ Log Trade</button>
+      <button class="btn btn-gold btn-sm" onclick="_journalView='add';renderJournalBody()">+ Log Trade</button>
     </div>
-    ${STATE.journal.length === 0 ? `
-      <div class="card" style="padding:40px 20px;text-align:center">
-        <div style="font-size:48px">📓</div>
-        <div style="margin:12px 0">No journal entries yet</div>
-        <div style="font-size:13px;color:var(--txt2)">Log your first trade to start tracking your performance</div>
-      </div>
-    ` : STATE.journal.map(t => `
-      <div class="j-entry ${parseFloat(t.pnl) > 0 ? 'win' : 'loss'}">
-        <div>${t.pair} · ${t.direction}</div>
-        <div>$${t.pnl}</div>
-      </div>
-    `).join('')}
+
+    <div class="tab-bar" style="margin-bottom:16px">
+      <div class="tab-btn ${_journalView === 'list' ? 'active' : ''}" onclick="_journalView='list';renderJournalBody()">Entries</div>
+      <div class="tab-btn ${_journalView === 'stats' ? 'active' : ''}" onclick="_journalView='stats';renderJournalBody()">Stats</div>
+      <div class="tab-btn ${_journalView === 'add' ? 'active' : ''}" onclick="_journalView='add';renderJournalBody()">+ New</div>
+    </div>
+
+    <div id="journal-body">${journalBodyHTML()}</div>
   </div>`;
 }
 
-/* ═══ PROFILE SCREEN ═══ */
-function renderProfile() {
-  return `<div class="screen-pad">
-    <h1 class="pg-title">Profile</h1>
-    <div class="card card-gold" style="padding:20px;text-align:center;margin:16px 0">
-      <div style="width:72px;height:72px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:32px">
-        ${(STATE.user.name || 'T').charAt(0)}
+function renderJournalBody() {
+  const el = document.getElementById('journal-body');
+  if (el) el.innerHTML = journalBodyHTML();
+}
+
+function journalBodyHTML() {
+  if (_journalView === 'stats') return renderJournalStats();
+  if (_journalView === 'add') return renderJournalForm();
+  return renderJournalList();
+}
+
+function renderJournalList() {
+  if (!STATE.journal.length) {
+    return `<div style="text-align:center;padding:40px 0">
+      <div style="font-size:48px">📓</div>
+      <div style="margin:12px 0;color:var(--txt2)">No trades logged yet</div>
+      <button class="btn btn-gold btn-sm" onclick="_journalView='add';renderJournalBody()">Log First Trade</button>
+    </div>`;
+  }
+
+  return STATE.journal.slice().reverse().map((t, i) => {
+    const pnl = parseFloat(t.pnl) || 0;
+    return `<div class="j-entry ${pnl > 0 ? 'win' : 'loss'}">
+      <div style="display:flex;justify-content:space-between">
+        <div>
+          <strong>${t.pair}</strong> · ${t.direction || 'BUY'}
+          <div style="font-size:11px;color:var(--txt3)">${new Date(t.date).toLocaleDateString()}</div>
+        </div>
+        <div class="t-mono" style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div>
       </div>
-      <div style="font-size:18px">${STATE.user.name || 'Trader'}</div>
-      <div style="color:var(--gold);margin-top:4px">Level ${STATE.user.level} · ${STATE.user.xp} XP</div>
-    </div>
+    </div>`;
+  }).join('');
+}
+
+function renderJournalStats() {
+  const trades = STATE.journal;
+  if (!trades.length) return '<div style="text-align:center;padding:40px 0;color:var(--txt2)">Log trades to see statistics</div>';
+
+  const wins = trades.filter(t => parseFloat(t.pnl) > 0);
+  const losses = trades.filter(t => parseFloat(t.pnl) <= 0);
+  const totalPnl = trades.reduce((a, t) => a + (parseFloat(t.pnl) || 0), 0);
+  const wr = Math.round((wins.length / trades.length) * 100);
+
+  return `
     <div class="stat-grid" style="margin-bottom:16px">
-      <div class="stat-box"><div class="stat-val">${STATE.dailyStreak}🔥</div><div class="stat-lbl">Streak</div></div>
-      <div class="stat-box"><div class="stat-val">${Object.keys(STATE.progress).length}</div><div class="stat-lbl">Lessons</div></div>
-      <div class="stat-box"><div class="stat-val">${STATE.achievements.length}</div><div class="stat-lbl">Badges</div></div>
-      <div class="stat-box"><div class="stat-val">${STATE.journal.length}</div><div class="stat-lbl">Journal</div></div>
+      <div class="stat-box"><div class="stat-val">${trades.length}</div><div class="stat-lbl">Trades</div></div>
+      <div class="stat-box"><div class="stat-val">${wr}%</div><div class="stat-lbl">Win Rate</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:${totalPnl>=0?'var(--green)':'var(--red)'}">${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toFixed(0)}</div><div class="stat-lbl">Net P&L</div></div>
     </div>
-    <button class="btn btn-outline" onclick="navigate('settings')" style="margin-top:8px">Settings</button>
-  </div>`;
+    <div class="card" style="padding:14px">
+      <div style="font-weight:700;margin-bottom:8px">Win/Loss Distribution</div>
+      <div style="height:8px;background:var(--bg4);border-radius:4px;overflow:hidden">
+        <div style="width:${wr}%;height:100%;background:var(--green)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px">
+        <span style="color:var(--green)">Wins: ${wins.length}</span>
+        <span style="color:var(--red)">Losses: ${losses.length}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderJournalForm() {
+  return `
+    <div class="inp-wrap">
+      <label class="inp-label">Pair</label>
+      <input class="inp" id="j-pair" placeholder="EUR/USD" value="EUR/USD">
+    </div>
+    <div class="inp-row">
+      <div class="inp-wrap">
+        <label class="inp-label">Direction</label>
+        <select class="inp" id="j-dir">
+          <option value="BUY">BUY</option>
+          <option value="SELL">SELL</option>
+        </select>
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">P&L ($)</label>
+        <input class="inp" id="j-pnl" type="number" step="0.01" placeholder="50.00">
+      </div>
+    </div>
+    <div class="inp-wrap">
+      <label class="inp-label">Notes</label>
+      <textarea class="inp" id="j-notes" rows="3" placeholder="What went well? What could improve?"></textarea>
+    </div>
+    <button class="btn btn-gold" onclick="saveJournalEntry()">Save Entry</button>
+    <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="_journalView='list';renderJournalBody()">Cancel</button>
+  `;
+}
+
+function saveJournalEntry() {
+  const entry = {
+    date: new Date().toISOString(),
+    pair: document.getElementById('j-pair').value,
+    direction: document.getElementById('j-dir').value,
+    pnl: parseFloat(document.getElementById('j-pnl').value) || 0,
+    notes: document.getElementById('j-notes').value,
+  };
+  STATE.journal.push(entry);
+  addXP(10);
+  saveState();
+  _journalView = 'list';
+  showToast('📓 Trade logged! +10 XP');
+  navigate('journal');
 }
 
 /* ═══ MENTOR SCREEN ═══ */
 function renderMentor() {
+  const name = STATE.user.name || 'Trader';
+  const history = STATE.chatHistory;
+
   return `<div style="display:flex;flex-direction:column;height:100%">
-    <div style="padding:16px;border-bottom:1px solid var(--bdr2)">
-      <h1 class="pg-title">AI Mentor</h1>
-      <p style="color:var(--txt2);font-size:13px">Ask me anything about trading</p>
-    </div>
-    <div style="flex:1;padding:16px;overflow-y:auto">
-      <div class="chat-msg bot">
-        Hello! I'm your trading mentor. Ask me about any trading concept, strategy, or psychology.
+    <div style="padding:12px 16px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;font-size:20px">🤖</div>
+        <div>
+          <div style="font-weight:800;font-size:16px">TradeMind AI</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-top:2px">
+            <span class="live-dot"></span>
+            <span style="font-size:11px;color:var(--green)">Online</span>
+          </div>
+        </div>
       </div>
+      <button class="btn-icon" onclick="clearChat()" title="Clear chat">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.15"/></svg>
+      </button>
     </div>
-    <div style="padding:12px;border-top:1px solid var(--bdr2)">
-      <input class="inp" placeholder="Type your question..." style="width:100%">
+
+    <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px" id="chat-messages">
+      ${history.length === 0 ? `
+        <div style="align-self:flex-start;background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;padding:12px 14px;max-width:88%">
+          Hey ${name}! 👋 I'm your trading coach. Ask me anything about trading!
+        </div>
+      ` : history.map(m => `
+        <div style="max-width:88%;padding:11px 14px;border-radius:16px;align-self:${m.role==='user'?'flex-end':'flex-start'};background:${m.role==='user'?'linear-gradient(135deg,var(--gold),var(--gold-d))':'var(--bg3)'};color:${m.role==='user'?'#0A0A0F':'var(--txt)'}">
+          ${m.text}
+        </div>
+      `).join('')}
+      <div id="chat-end" style="height:4px"></div>
     </div>
+
+    <div style="padding:10px 12px;border-top:1px solid var(--bdr2);display:flex;gap:8px;background:var(--glass)">
+      <input id="chat-inp" style="flex:1;background:rgba(255,255,255,.05);border:1.5px solid var(--bdr2);border-radius:24px;padding:11px 16px;font-size:14px;color:var(--txt)" 
+        placeholder="Ask about trading..." onkeydown="if(event.key==='Enter')submitChat()">
+      <button onclick="submitChat()" style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#0A0A0F;display:flex;align-items:center;justify-content:center;border:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>`;
+}
+
+function scrollChatToBottom() {
+  const end = document.getElementById('chat-end');
+  if (end) end.scrollIntoView({ behavior: 'smooth' });
+}
+
+function appendChatMessage(role, text) {
+  const container = document.getElementById('chat-messages');
+  const end = document.getElementById('chat-end');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.innerHTML = text;
+  if (end) container.insertBefore(div, end);
+  else container.appendChild(div);
+  scrollChatToBottom();
+}
+
+function submitChat() {
+  const inp = document.getElementById('chat-inp');
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+
+  STATE.chatHistory.push({ role: 'user', text });
+  appendChatMessage('user', text);
+
+  const response = generateResponse(text);
+  STATE.chatHistory.push({ role: 'bot', text: response });
+  appendChatMessage('bot', response);
+  saveState();
+}
+
+function clearChat() {
+  if (confirm('Clear chat history?')) {
+    STATE.chatHistory = [];
+    saveState();
+    navigate('mentor');
+  }
+}
+
+function generateResponse(input) {
+  const q = input.toLowerCase().trim();
+  
+  const KB = {
+    'what is forex': `The Forex market is the world's largest financial market with over $7.5 trillion traded daily. It operates 24/5 across global financial centres.`,
+    'pip|pips': `A pip is the smallest standard price movement. Most pairs: 0.0001, JPY pairs: 0.01.`,
+    'leverage': `Leverage lets you control a larger position with smaller capital. At 100:1, $1,000 controls $100,000. Amplifies both profits AND losses.`,
+    'stop loss|sl': `A stop loss automatically closes a trade at a predetermined loss. ALWAYS use one.`,
+    'take profit|tp': `Take profit closes your trade when it reaches your profit target. Set it BEFORE entering.`,
+    'risk management': `The 1% Rule: never risk more than 1-2% of your account on any single trade.`,
+    'support|resistance': `Support = price level where buying overcomes selling. Resistance = where selling overcomes buying.`,
+    'candlestick|candle': `Candlesticks show Open, High, Low, Close prices. Green = bullish, Red = bearish.`,
+    'rsi': `RSI measures momentum from 0-100. Above 70 = overbought, below 30 = oversold.`,
+    'macd': `MACD shows trend direction and momentum. MACD crossing above signal = bullish, below = bearish.`,
+    'moving average|ema|sma': `Moving averages smooth price action to show trend. EMA reacts faster, SMA is smoother.`,
+    'fibonacci|fib': `Fibonacci retracements use the golden ratio. Key levels: 38.2%, 50%, 61.8%.`,
+    'session|london|new york|tokyo': `Best trading: London/NY overlap (13:00-17:00 UTC) for highest liquidity.`,
+    'psychology|discipline|emotions': `Trading psychology is 90% of success. After 2 consecutive losses, stop for the day.`,
+    'journal|journaling': `A trading journal is your most powerful improvement tool. Log every trade with emotions.`,
+  };
+
+  for (const [patterns, answer] of Object.entries(KB)) {
+    if (patterns.split('|').some(p => q.includes(p))) {
+      return answer;
+    }
+  }
+
+  return `Great question! I can help you with any trading concept. Try asking about pips, leverage, support/resistance, candlesticks, or risk management.`;
+}
+
+/* ═══ PROFILE SCREEN ═══ */
+function renderProfile() {
+  const totalPnl = STATE.simTrades.reduce((a, t) => a + (t.pnl || 0), 0);
+  const winRate = STATE.simTrades.length > 0
+    ? Math.round(STATE.simTrades.filter(t => t.pnl > 0).length / STATE.simTrades.length * 100)
+    : 0;
+  const xpPct = Math.round(STATE.user.xp / STATE.user.xpNext * 100) || 0;
+
+  return `<div class="screen-pad">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h1 class="pg-title">My Profile</h1>
+      <button class="btn-icon" onclick="navigate('settings')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="card card-gold" style="padding:20px;text-align:center;margin-bottom:16px">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:32px;color:#0A0A0F">
+        ${(STATE.user.name || 'T').charAt(0).toUpperCase()}
+      </div>
+      <div style="font-weight:800;font-size:20px">${STATE.user.name || 'Trader'}</div>
+      <div style="color:var(--gold);margin-top:4px">Level ${STATE.user.level} · ${STATE.user.xp} XP</div>
+    </div>
+
+    <div class="xp-wrap" style="margin-bottom:16px">
+      <div class="xp-row">
+        <div class="xp-level">Level ${STATE.user.level}</div>
+        <div class="xp-pts">${STATE.user.xp} / ${STATE.user.xpNext} XP</div>
+      </div>
+      <div class="prog-bar lg"><div class="prog-fill" style="width:${xpPct}%"></div></div>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:16px">
+      <div class="stat-box"><div class="stat-val">${STATE.dailyStreak}🔥</div><div class="stat-lbl">Streak</div></div>
+      <div class="stat-box"><div class="stat-val">${completedCount()}</div><div class="stat-lbl">Lessons</div></div>
+      <div class="stat-box"><div class="stat-val">${STATE.journal.length}</div><div class="stat-lbl">Journal</div></div>
+      <div class="stat-box"><div class="stat-val">${STATE.achievements.length}</div><div class="stat-lbl">Badges</div></div>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:16px">
+      <div class="stat-box"><div class="stat-val" style="color:${totalPnl>=0?'var(--green)':'var(--red)'}">${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toFixed(0)}</div><div class="stat-lbl">Sim P&L</div></div>
+      <div class="stat-box"><div class="stat-val">${winRate}%</div><div class="stat-lbl">Win Rate</div></div>
+      <div class="stat-box"><div class="stat-val">${STATE.simTrades.length}</div><div class="stat-lbl">Trades</div></div>
+      <div class="stat-box"><div class="stat-val">$${STATE.simBalance.toFixed(0)}</div><div class="stat-lbl">Balance</div></div>
+    </div>
+
+    <button class="btn btn-ghost" onclick="if(confirm('Reset sim to $10,000?')){STATE.simBalance=10000;STATE.simEquity=10000;STATE.simTrades=[];saveState();showToast('Sim reset');navigate('profile')}">
+      Reset Sim Account
+    </button>
   </div>`;
 }
 
 /* ═══ SETTINGS SCREEN ═══ */
 function renderSettings() {
+  const themes = [
+    {key:'dark', label:'🌙 Dark Gold'},
+    {key:'light', label:'☀️ Light'},
+    {key:'slate', label:'🔷 Slate'},
+  ];
+
   return `<div class="screen-pad">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
       <button class="back-btn" onclick="navigate('profile')">
@@ -427,22 +1370,20 @@ function renderSettings() {
       <h1 class="pg-title">Settings</h1>
     </div>
 
-    <div class="section-lbl">Display</div>
+    <div class="section-lbl">Appearance</div>
     <div class="card" style="padding:14px;margin-bottom:16px">
       <div style="margin-bottom:12px">
         <div style="font-size:13px;margin-bottom:4px">Theme</div>
         <select class="inp" onchange="applyTheme(this.value)">
-          <option value="dark" ${STATE.user.theme === 'dark' ? 'selected' : ''}>Dark Gold</option>
-          <option value="light" ${STATE.user.theme === 'light' ? 'selected' : ''}>Light</option>
-          <option value="slate" ${STATE.user.theme === 'slate' ? 'selected' : ''}>Slate</option>
+          ${themes.map(t => `<option value="${t.key}" ${STATE.user.theme===t.key?'selected':''}>${t.label}</option>`).join('')}
         </select>
       </div>
       <div>
         <div style="font-size:13px;margin-bottom:4px">Font Size</div>
         <select class="inp" onchange="applyFontSize(this.value)">
-          <option value="small" ${STATE.user.fontSize === 'small' ? 'selected' : ''}>Small</option>
-          <option value="medium" ${STATE.user.fontSize === 'medium' ? 'selected' : ''}>Medium</option>
-          <option value="large" ${STATE.user.fontSize === 'large' ? 'selected' : ''}>Large</option>
+          <option value="small" ${STATE.user.fontSize==='small'?'selected':''}>Small</option>
+          <option value="medium" ${STATE.user.fontSize==='medium'?'selected':''}>Medium</option>
+          <option value="large" ${STATE.user.fontSize==='large'?'selected':''}>Large</option>
         </select>
       </div>
     </div>
@@ -453,15 +1394,43 @@ function renderSettings() {
         <label class="inp-label">Display Name</label>
         <input class="inp" id="settings-name" value="${STATE.user.name || ''}">
       </div>
-      <button class="btn btn-gold btn-sm" onclick="const n=document.getElementById('settings-name').value;if(n){STATE.user.name=n;saveState();showToast('Name saved!');}">Save</button>
+      <button class="btn btn-gold btn-sm" onclick="saveName()">Save Name</button>
     </div>
 
     <div class="section-lbl">Data</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
       <button class="btn btn-ghost btn-sm" onclick="exportUserData()">📤 Export Data</button>
-      <button class="btn btn-danger btn-sm" onclick="if(confirm('Reset ALL data?')){localStorage.removeItem('tb4');location.reload()}">🗑️ Reset All</button>
+      <button class="btn btn-danger btn-sm" onclick="resetAllData()">🗑️ Reset All</button>
+    </div>
+
+    <div class="section-lbl">About</div>
+    <div class="card" style="padding:14px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="color:var(--txt2)">Version</span>
+        <span>4.0.0</span>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:var(--txt2)">Developer</span>
+        <span>SayMy Tech</span>
+      </div>
     </div>
   </div>`;
+}
+
+function saveName() {
+  const n = document.getElementById('settings-name')?.value.trim();
+  if (n) {
+    STATE.user.name = n;
+    saveState();
+    showToast('✅ Name saved!');
+  }
+}
+
+function resetAllData() {
+  if (confirm('Reset ALL data? This cannot be undone.')) {
+    localStorage.removeItem('tb4');
+    location.reload();
+  }
 }
 
 /* ═══ NOTIFICATIONS SCREEN ═══ */
@@ -477,6 +1446,7 @@ function renderNotifications() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <h1 class="pg-title">Notifications</h1>
+      <button class="btn btn-ghost btn-xs" onclick="STATE.notifications=[];saveState();renderScreen('notifications')">Clear</button>
     </div>
 
     ${STATE.notifications.length === 0 ? `
@@ -496,26 +1466,242 @@ function renderNotifications() {
   </div>`;
 }
 
+/* ═══ STRATEGIES SCREEN ═══ */
+function renderStrategies() {
+  return `<div class="screen-pad">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button class="back-btn" onclick="navigate('learn')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h1 class="pg-title">Strategy Library</h1>
+    </div>
+
+    ${STRATEGIES.map((s, i) => `
+      <div class="card card-tappable" style="margin-bottom:10px;padding:14px" onclick="showStrategy('${s.id}')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:28px">${s.emoji}</span>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:15px">${s.name}</div>
+            <div style="font-size:12px;color:var(--txt2)">${s.style} · ${s.tf}</div>
+          </div>
+          <span class="pill pill-gold">${s.winrate}</span>
+        </div>
+        <div style="font-size:13px;color:var(--txt2);margin-top:8px">${s.desc}</div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+function showStrategy(id) {
+  const s = STRATEGIES.find(x => x.id === id);
+  if (!s) return;
+  showModal(`<div class="modal-handle"></div>
+    <div style="font-size:36px;text-align:center;margin-bottom:12px">${s.emoji}</div>
+    <div style="font-weight:800;font-size:18px;margin-bottom:4px">${s.name}</div>
+    <div style="display:flex;gap:6px;margin:8px 0">
+      <span class="pill pill-gold">${s.winrate}</span>
+      <span class="pill pill-blue">${s.rr}</span>
+    </div>
+    <p style="font-size:13px;color:var(--txt2);margin:12px 0">${s.desc}</p>
+    <div class="section-lbl">Rules</div>
+    ${s.rules.map((r, i) => `<div style="font-size:12px;color:var(--txt2);margin-bottom:6px;padding-left:12px">${i+1}. ${r}</div>`).join('')}
+    <button class="btn btn-gold" style="margin-top:16px" onclick="closeModal();addXP(5)">Got it! +5 XP</button>
+  `);
+}
+
+/* ═══ CALCULATOR SCREEN ═══ */
+function renderCalculator() {
+  return `<div class="screen-pad">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button class="back-btn" onclick="navigate('trade')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h1 class="pg-title">Calculator</h1>
+    </div>
+
+    <div class="card" style="padding:14px;margin-bottom:16px">
+      <div class="section-lbl">Position Size</div>
+      <div class="inp-wrap">
+        <label class="inp-label">Account Balance ($)</label>
+        <input class="inp" id="calc-bal" value="10000">
+      </div>
+      <div class="inp-row">
+        <div class="inp-wrap">
+          <label class="inp-label">Risk %</label>
+          <input class="inp" id="calc-risk" value="1">
+        </div>
+        <div class="inp-wrap">
+          <label class="inp-label">Stop Loss (pips)</label>
+          <input class="inp" id="calc-sl" value="30">
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="calcPositionSize()">Calculate</button>
+      <div id="calc-result" style="margin-top:12px;font-size:16px;text-align:center"></div>
+    </div>
+
+    <div class="card" style="padding:14px">
+      <div class="section-lbl">Pip Value</div>
+      <div class="inp-wrap">
+        <label class="inp-label">Lot Size</label>
+        <input class="inp" id="pv-lots" value="0.10">
+      </div>
+      <button class="btn btn-gold" onclick="calcPipValue()">Calculate</button>
+      <div id="pv-result" style="margin-top:12px;text-align:center"></div>
+    </div>
+  </div>`;
+}
+
+function calcPositionSize() {
+  const bal = parseFloat(document.getElementById('calc-bal').value) || 10000;
+  const risk = parseFloat(document.getElementById('calc-risk').value) || 1;
+  const sl = parseFloat(document.getElementById('calc-sl').value) || 30;
+  const riskAmt = bal * (risk / 100);
+  const lots = riskAmt / (sl * 10); // Assuming $10/pip for standard lot
+  document.getElementById('calc-result').innerHTML = `
+    <strong style="color:var(--gold)">${lots.toFixed(2)} lots</strong><br>
+    <span style="font-size:12px;color:var(--txt2)">Max Risk: $${riskAmt.toFixed(2)}</span>
+  `;
+}
+
+function calcPipValue() {
+  const lots = parseFloat(document.getElementById('pv-lots').value) || 0.1;
+  const pv = lots * 10; // $10 per pip per standard lot
+  document.getElementById('pv-result').innerHTML = `
+    <strong style="color:var(--gold)">$${pv.toFixed(2)} per pip</strong>
+  `;
+}
+
+/* ═══ ANALYTICS SCREEN ═══ */
+function renderAnalytics() {
+  return `<div class="screen-pad">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button class="back-btn" onclick="navigate('profile')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h1 class="pg-title">Analytics</h1>
+    </div>
+    <p style="color:var(--txt2)">Coming soon — detailed performance analytics</p>
+  </div>`;
+}
+
+/* ═══ FLASHCARDS SCREEN ═══ */
+let _flashIdx = 0, _flashFlipped = false;
+
+function renderFlashcards() {
+  const card = FLASHCARDS[_flashIdx % FLASHCARDS.length];
+  return `<div class="screen-pad">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button class="back-btn" onclick="navigate('learn')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h1 class="pg-title">Flashcards</h1>
+      <span class="pill pill-gold">${(_flashIdx%FLASHCARDS.length)+1}/${FLASHCARDS.length}</span>
+    </div>
+
+    <div class="flashcard-wrap" onclick="_flashFlipped=!_flashFlipped;renderFlashcards()">
+      <div class="flashcard ${_flashFlipped ? 'flipped' : ''}" style="min-height:220px">
+        <div class="fc-front">
+          <div style="font-size:11px;color:var(--txt3);margin-bottom:16px">QUESTION</div>
+          <div style="font-weight:700;font-size:19px">${card.q}</div>
+          <div class="fc-hint">TAP TO FLIP</div>
+        </div>
+        <div class="fc-back">
+          <div style="font-size:11px;color:var(--gold);margin-bottom:16px">ANSWER</div>
+          <div style="font-size:14px">${card.a}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-ghost btn-sm" onclick="_flashIdx=Math.max(0,_flashIdx-1);_flashFlipped=false;renderFlashcards()">← Prev</button>
+      <button class="btn btn-ghost btn-sm" onclick="_flashIdx=(_flashIdx+1)%FLASHCARDS.length;_flashFlipped=false;renderFlashcards()">Next →</button>
+    </div>
+  </div>`;
+}
+
+/* ═══ FLOATING CHAT ═══ */
+let _floatOpen = false;
+let _floatHistory = [];
+
+function toggleFloatChat() {
+  _floatOpen = !_floatOpen;
+  const panel = document.getElementById('float-chat-panel');
+  const btn = document.getElementById('float-btn');
+  if (!panel) return;
+  if (_floatOpen) {
+    panel.style.display = 'flex';
+    if (_floatHistory.length === 0) initFloatChat();
+    setTimeout(() => document.getElementById('float-input')?.focus(), 300);
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function initFloatChat() {
+  const name = STATE.user.name || 'Trader';
+  addFloatMsg('bot', `Hey ${name}! I'm your trading companion. What do you need help with?`);
+}
+
+function addFloatMsg(role, text) {
+  _floatHistory.push({role, text});
+  const container = document.getElementById('float-messages');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = `float-msg ${role}`;
+  div.innerHTML = text;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendFloatMsg() {
+  const input = document.getElementById('float-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addFloatMsg('user', text);
+
+  const response = generateFloatResponse(text);
+  addFloatMsg('bot', response);
+}
+
+function generateFloatResponse(input) {
+  const q = input.toLowerCase().trim();
+  if (q.includes('pip')) return 'A pip is the smallest price move. Most pairs: 0.0001, JPY pairs: 0.01.';
+  if (q.includes('leverage')) return 'Leverage amplifies both profits and losses. At 100:1, $1,000 controls $100,000.';
+  if (q.includes('stop loss')) return 'Always use a stop loss. Place it at a logical level, not a random pip distance.';
+  if (q.includes('risk')) return 'The 1% rule: never risk more than 1-2% of your account per trade.';
+  return 'I can help you learn trading. Ask about pips, leverage, risk management, or candlesticks!';
+}
+
 /* ═══ FOREX CLOCK ═══ */
 function getSessionStatus() {
   const now = new Date();
   const utcMins = now.getUTCHours() * 60 + now.getUTCMinutes();
-  return [
+  const sessions = [
     {name:'Sydney', flag:'🇦🇺', open:22*60, close:7*60},
     {name:'Tokyo',  flag:'🇯🇵', open:0,     close:9*60},
     {name:'London', flag:'🇬🇧', open:8*60,  close:17*60},
-    {name:'New York',flag:'🇺🇸',open:13*60, close:22*60}
-  ].map(s => {
-    const isOpen = s.open > s.close ? utcMins >= s.open || utcMins < s.close : utcMins >= s.open && utcMins < s.close;
-    return {...s, isOpen};
+    {name:'New York',flag:'🇺🇸',open:13*60, close:22*60},
+  ];
+  return sessions.map(s => {
+    const isOpen = s.open > s.close
+      ? utcMins >= s.open || utcMins < s.close
+      : utcMins >= s.open && utcMins < s.close;
+    const minsToOpen = s.open > utcMins ? s.open - utcMins : s.open + 1440 - utcMins;
+    return {...s, isOpen, soon: !isOpen && minsToOpen <= 60, minsTill: minsToOpen};
   });
 }
 
 function initForexClock() {
   const clockEl = document.getElementById('forex-clock');
+  const utcEl = document.getElementById('utc-time');
   if (!clockEl) return;
-  
+
   const sessions = getSessionStatus();
+  if (utcEl) utcEl.textContent = new Date().toUTCString().split(' ')[4] + ' UTC';
+
   clockEl.innerHTML = sessions.map(s => `
     <div class="clk-session ${s.isOpen ? 'open' : ''}">
       <div class="clk-name">${s.flag} ${s.name}</div>
@@ -524,7 +1710,19 @@ function initForexClock() {
   `).join('');
 }
 
+/* ═══ BEHAVIOR TRACKING ═══ */
+const BEHAVIOR = {
+  log(type, data = {}) {
+    if (!STATE.behaviorLog) STATE.behaviorLog = [];
+    STATE.behaviorLog.push({ type, data, time: new Date().toISOString(), screen: STATE.screen });
+    if (STATE.behaviorLog.length > 500) STATE.behaviorLog = STATE.behaviorLog.slice(-500);
+    saveState();
+  }
+};
+
 /* ═══ UTILITY FUNCTIONS ═══ */
+function el(id) { return document.getElementById(id); }
+function fmtDate(iso) { try { return new Date(iso).toLocaleDateString(); } catch { return ''; } }
 function exportUserData() {
   const data = JSON.stringify({
     exportDate: new Date().toISOString(),
@@ -544,36 +1742,67 @@ function exportUserData() {
   showToast('📤 Data exported!');
 }
 
-function el(id) { return document.getElementById(id); }
-
 /* ═══ SPLASH & BOOT ═══ */
-const SPLASH_MSGS = ['Initializing...', 'Loading lessons...', 'Preparing charts...', 'Almost ready...'];
+const SPLASH_MSGS = ['Initializing...', 'Loading lessons...', 'Preparing charts...', 'Setting up mentor...', 'Almost ready...'];
 
 function bootApp() {
   loadState();
 
-  // Animate splash
   const fill = document.getElementById('splash-fill');
   const msg = document.getElementById('splash-msg');
   let pct = 0, mi = 0;
 
   const interval = setInterval(() => {
-    pct = Math.min(pct + Math.random() * 20 + 5, 100);
+    pct = Math.min(pct + Math.random() * 22 + 8, 100);
     if (fill) fill.style.width = pct + '%';
     if (msg && mi < SPLASH_MSGS.length) msg.textContent = SPLASH_MSGS[mi++];
-    
     if (pct >= 100) {
       clearInterval(interval);
       launchApp();
     }
-  }, 250);
+  }, 350);
+
+  // Draw splash canvas
+  const canvas = document.getElementById('splash-canvas');
+  if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drawSplashStars(canvas);
+  }
+}
+
+function drawSplashStars(canvas) {
+  const ctx = canvas.getContext('2d');
+  const stars = Array.from({length: 60}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.8 + 0.3,
+    a: Math.random() * Math.PI * 2,
+    speed: Math.random() * .008 + .003,
+    base: Math.random() * .5 + .15,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.a += s.speed;
+      const opacity = s.base + Math.sin(s.a) * 0.2;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${opacity.toFixed(2)})`;
+      ctx.fill();
+    });
+    if (document.getElementById('splash')?.style.display !== 'none') {
+      requestAnimationFrame(draw);
+    }
+  }
+  draw();
 }
 
 function launchApp() {
   setTimeout(() => {
     const splash = document.getElementById('splash');
     const app = document.getElementById('app');
-    
     if (splash) {
       splash.style.transition = 'opacity .5s';
       splash.style.opacity = '0';
@@ -591,9 +1820,6 @@ function launchApp() {
 
 /* ═══ ONBOARDING ═══ */
 let _obStep = 0;
-const OB_STEPS = [
-  { id: 'name', type: 'text', title: 'Welcome!', sub: "What's your name?", field: 'name' }
-];
 
 function showOnboarding() {
   _obStep = 0;
@@ -602,24 +1828,28 @@ function showOnboarding() {
 }
 
 function renderObStep() {
-  const step = OB_STEPS[_obStep];
-  document.getElementById('ob-body').innerHTML = `
-    <div style="text-align:center">
-      <h2 style="margin-bottom:16px">${step.title}</h2>
-      <p style="color:var(--txt2);margin-bottom:24px">${step.sub}</p>
-      <input class="inp" id="ob-input" placeholder="Your name" value="${STATE.user.name || ''}" style="margin-bottom:16px">
-      <button class="btn btn-gold" onclick="obNext()">Continue →</button>
+  const total = 1;
+  const pct = Math.round((_obStep / total) * 100);
+  document.getElementById('ob-progress').style.width = pct + '%';
+
+  let html = `<div>
+    <h1 style="font-size:24px;text-align:center;margin-bottom:16px">Welcome to TradeBaby Pro!</h1>
+    <p style="text-align:center;color:var(--txt2);margin-bottom:24px">Let's set up your personalized experience.</p>
+    <div class="inp-wrap">
+      <label class="inp-label">What should I call you?</label>
+      <input class="inp" id="ob-name" placeholder="Your name" value="${STATE.user.name || ''}" style="text-align:center">
     </div>
-  `;
+    <button class="btn btn-gold" onclick="obNext()">Start Trading Journey 🚀</button>
+  </div>`;
+
+  document.getElementById('ob-body').innerHTML = html;
 }
 
 function obNext() {
-  const val = document.getElementById('ob-input')?.value?.trim();
+  const val = document.getElementById('ob-name')?.value?.trim();
   if (!val) { showToast('Please enter your name'); return; }
   STATE.user.name = val;
-  _obStep++;
-  if (_obStep >= OB_STEPS.length) finishOnboarding();
-  else renderObStep();
+  finishOnboarding();
 }
 
 function finishOnboarding() {
@@ -631,11 +1861,12 @@ function finishOnboarding() {
   saveState();
   document.getElementById('onboarding').style.display = 'none';
   navigate('home');
-  showToast(`🎉 Welcome, ${STATE.user.name}!`, 3000);
+  showToast(`🎉 Welcome, ${STATE.user.name}!`, 4000);
 }
 
 /* ═══ INSTALL PROMPT ═══ */
 let deferredInstall = null;
+
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredInstall = e;
@@ -674,3 +1905,5 @@ document.addEventListener('touchend', e => {
 document.addEventListener('DOMContentLoaded', bootApp);
 console.log('🚀 TradeBaby Pro v8 loaded');
 </script>
+</body>
+</html>
